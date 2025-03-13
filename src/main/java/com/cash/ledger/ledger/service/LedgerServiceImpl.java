@@ -3,7 +3,9 @@ package com.cash.ledger.ledger.service;
 import com.cash.ledger.ledger.config.Constants;
 import com.cash.ledger.ledger.entity.Payment;
 import com.cash.ledger.ledger.entity.UserAccount;
-import com.cash.ledger.ledger.entity.dto.PaymentRequestDto;
+import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
+import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
+import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
 import com.cash.ledger.ledger.repository.LedgerRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +50,44 @@ public class LedgerServiceImpl implements LedgerService{
         Map<String, Object> responseMap = gson.fromJson(jsonString, Map.class);
 
         return responseMap;
+    }
+
+    @Override
+    public Map<String, Object> lipaStatus(PaymentStatusDto paymentStatusDto) throws Exception {
+        Gson gson = new Gson();
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(Constants.PAYMENT_STATUS_URL))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(paymentStatusDto)))
+                .build();
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpResponse<String> postResponse = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+        if (postResponse.statusCode() != HttpStatus.OK.value()) {
+            throw new Exception("Failed to initialize payment::: Status code " + postResponse.statusCode() +" response body:: "+ postResponse.body());
+        }
+
+        String jsonString = postResponse.body();
+        Map<String, Object> responseMap = gson.fromJson(jsonString, Map.class);
+
+        return responseMap;
+    }
+
+    @Override
+    public UserAccount createUserAccount(AccountCreationRequestDto accountCreationRequestDto) {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setPhoneNumber(accountCreationRequestDto.getPhoneNumber());
+        userAccount.setPassword(accountCreationRequestDto.getPassword());
+        userAccount.setPhoneNumber(accountCreationRequestDto.getPhoneNumber());
+        userAccount.setCreatedAt(accountCreationRequestDto.getCreatedAt());
+        userAccount.setRole(accountCreationRequestDto.getRole());
+        userAccount.setBackupSet(false);
+        userAccount.setPermanent(false);
+
+        return saveUserAccount(userAccount);
     }
 
     @Override

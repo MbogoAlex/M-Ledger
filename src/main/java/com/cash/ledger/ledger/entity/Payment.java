@@ -19,6 +19,7 @@ public class Payment {
     @DynamoDBAttribute
     private String month;
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "UserIdIndex")
+    @DynamoDBAttribute
     private Integer userId;
     @DynamoDBAttribute
     private LocalDateTime freeTrialEndedOn;

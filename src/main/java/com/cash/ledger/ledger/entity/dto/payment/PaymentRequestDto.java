@@ -1,4 +1,4 @@
-package com.cash.ledger.ledger.entity.dto;
+package com.cash.ledger.ledger.entity.dto.payment;
 
 public class PaymentRequestDto {
     private String amount;

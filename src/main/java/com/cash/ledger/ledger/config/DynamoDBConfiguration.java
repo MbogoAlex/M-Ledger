@@ -31,8 +31,8 @@ public class DynamoDBConfiguration {
                 .standard()
                 .withEndpointConfiguration(
                         new AwsClientBuilder.EndpointConfiguration(
-                                "dynamodb.eu-central-1.amazonaws.com",
-                                "eu-central-1"
+                                "dynamodb." +Constants.AWS_LOCATION+".amazonaws.com",
+                                Constants.AWS_LOCATION
                         )
                 )
                 .withCredentials(

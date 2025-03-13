@@ -3,14 +3,17 @@ package com.cash.ledger.ledger.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.cash.ledger.ledger.entity.IdCounter;
 import com.cash.ledger.ledger.entity.Payment;
 import com.cash.ledger.ledger.entity.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class LedgerRepositoryImpl implements LedgerRepository{
@@ -22,9 +25,48 @@ public class LedgerRepositoryImpl implements LedgerRepository{
 
     @Override
     public UserAccount saveUserAccount(UserAccount userAccount) {
+        // Query the GSI instead of scanning the entire table
+        DynamoDBQueryExpression<UserAccount> queryExpression = new DynamoDBQueryExpression<UserAccount>()
+                .withIndexName("PhoneNumberIndex")  // Use the GSI
+                .withKeyConditionExpression("phoneNumber = :phoneNumber")
+                .withExpressionAttributeValues(Map.of(":phoneNumber", new AttributeValue(userAccount.getPhoneNumber())))
+                .withConsistentRead(false);  // GSIs require eventual consistency
+
+        List<UserAccount> existingUsers = dynamoDBMapper.query(UserAccount.class, queryExpression);
+
+        if (!existingUsers.isEmpty()) {
+            throw new RuntimeException("User with phone number " + userAccount.getPhoneNumber() + " already exists.");
+        }
+
+        // Generate a new unique Integer ID
+        String newId = getNextId();
+        userAccount.setId(String.valueOf(newId));
+
+        // Save user if no duplicate phoneNumber is found
         dynamoDBMapper.save(userAccount);
         return userAccount;
     }
+
+    /**
+     * Fetch the highest `id` in the table and return the next one.
+     */
+    private String getNextId() {
+        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "userAccount");
+        if (counter == null) {
+            counter = new IdCounter();
+            counter.setTableName("userAccount");
+            counter.setLastId("1");
+        } else {
+            counter.setLastId(String.valueOf(Integer.parseInt(counter.getLastId()) + 1));
+        }
+        dynamoDBMapper.save(counter);
+        return counter.getLastId();
+    }
+
+
+
+
+
 
     @Override
     public UserAccount updateUserAccount(Integer userId, UserAccount userAccount) {
