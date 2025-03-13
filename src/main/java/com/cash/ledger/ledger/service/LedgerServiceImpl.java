@@ -6,6 +6,8 @@ import com.cash.ledger.ledger.entity.UserAccount;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
+import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
+import com.cash.ledger.ledger.entity.dto.userAccount.UserProfileDetailsUpdateRequestBody;
 import com.cash.ledger.ledger.repository.LedgerRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class LedgerServiceImpl implements LedgerService{
@@ -86,6 +88,7 @@ public class LedgerServiceImpl implements LedgerService{
         userAccount.setRole(accountCreationRequestDto.getRole());
         userAccount.setBackupSet(false);
         userAccount.setPermanent(false);
+        userAccount.setMonth(accountCreationRequestDto.getMonth());
 
         return saveUserAccount(userAccount);
     }
@@ -96,12 +99,52 @@ public class LedgerServiceImpl implements LedgerService{
     }
 
     @Override
-    public UserAccount updateUserAccount(Integer userId, UserAccount userAccount) {
+    public UserAccount updateUserDetails(UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody) {
+        UserAccount userAccount = getUserAccount(userProfileDetailsUpdateRequestBody.getUserId());
+
+        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getFname(), userAccount.getFname())) {
+            userAccount.setFname(userProfileDetailsUpdateRequestBody.getFname());
+        }
+
+        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getLname(), userAccount.getLname())) {
+            userAccount.setLname(userProfileDetailsUpdateRequestBody.getLname());
+        }
+
+        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getEmail(), userAccount.getEmail())) {
+            userAccount.setEmail(userProfileDetailsUpdateRequestBody.getEmail());
+        }
+
+        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getPassword(), userAccount.getPassword())) {
+            userAccount.setPassword(userProfileDetailsUpdateRequestBody.getPassword());
+        }
+
+        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getPhoneNumber(), userAccount.getPhoneNumber())) {
+            userAccount.setPhoneNumber(userProfileDetailsUpdateRequestBody.getPhoneNumber());
+        }
+
+        return updateUserAccount(userProfileDetailsUpdateRequestBody.getUserId(), userAccount);
+    }
+
+    @Override
+    public UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto) {
+        UserAccount userAccount = getUserAccount(userBackupDetailsUpdateDto.getUserId());
+        userAccount.setBackupSet(true);
+        userAccount.setLastBackup(userBackupDetailsUpdateDto.getLastBackup());
+        userAccount.setBackupItemsSize(userBackupDetailsUpdateDto.getBackupItemsSize());
+        userAccount.setTransactions(userBackupDetailsUpdateDto.getTransactions());
+        userAccount.setCategories(userBackupDetailsUpdateDto.getCategories());
+        userAccount.setCategoryKeywords(userBackupDetailsUpdateDto.getCategoryKeywords());
+        userAccount.setCategoryMappings(userBackupDetailsUpdateDto.getCategoryMappings());
+        return updateUserAccount(userBackupDetailsUpdateDto.getUserId(), userAccount);
+    }
+
+    @Override
+    public UserAccount updateUserAccount(String userId, UserAccount userAccount) {
         return ledgerRepository.updateUserAccount(userId, userAccount);
     }
 
     @Override
-    public UserAccount getUserAccount(Integer userId) {
+    public UserAccount getUserAccount(String userId) {
         return ledgerRepository.getUserAccount(userId);
     }
 

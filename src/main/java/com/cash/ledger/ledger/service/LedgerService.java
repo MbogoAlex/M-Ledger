@@ -5,6 +5,8 @@ import com.cash.ledger.ledger.entity.UserAccount;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
+import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
+import com.cash.ledger.ledger.entity.dto.userAccount.UserProfileDetailsUpdateRequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -14,8 +16,11 @@ public interface LedgerService {
     Map<String, Object> lipaStatus(PaymentStatusDto paymentStatusDto) throws Exception;
     UserAccount createUserAccount(AccountCreationRequestDto accountCreationRequestDto);
     UserAccount saveUserAccount(UserAccount userAccount);
-    UserAccount updateUserAccount(Integer userId, UserAccount userAccount);
-    UserAccount getUserAccount(Integer userId);
+
+    UserAccount updateUserDetails(UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody);
+    UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);
+    UserAccount updateUserAccount(String userId, UserAccount userAccount);
+    UserAccount getUserAccount(String userId);
     String deleteUserAccount(Integer userId);
     Payment savePayment(Payment payment);
     Payment updatePayment(Integer paymentId, Payment payment);

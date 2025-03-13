@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface LedgerRepository {
     UserAccount saveUserAccount(UserAccount userAccount);
-    UserAccount updateUserAccount(Integer userId, UserAccount userAccount);
-    UserAccount getUserAccount(Integer userId);
+    UserAccount updateUserAccount(String userId, UserAccount userAccount);
+    UserAccount getUserAccount(String userId);
     String deleteUserAccount(Integer userId);
     Payment savePayment(Payment payment);
     Payment updatePayment(Integer paymentId, Payment payment);

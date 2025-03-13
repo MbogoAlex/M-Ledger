@@ -69,12 +69,12 @@ public class LedgerRepositoryImpl implements LedgerRepository{
 
 
     @Override
-    public UserAccount updateUserAccount(Integer userId, UserAccount userAccount) {
+    public UserAccount updateUserAccount(String userId, UserAccount userAccount) {
         dynamoDBMapper.save(
                 userAccount,
                 new DynamoDBSaveExpression()
                         .withExpectedEntry("id", new ExpectedAttributeValue(
-                                new AttributeValue().withN(String.valueOf(userId))
+                                new AttributeValue().withS(userId)
                         ))
         );
 
@@ -82,7 +82,7 @@ public class LedgerRepositoryImpl implements LedgerRepository{
     }
 
     @Override
-    public UserAccount getUserAccount(Integer userId) {
+    public UserAccount getUserAccount(String userId) {
         return dynamoDBMapper.load(UserAccount.class, userId);
     }
 
