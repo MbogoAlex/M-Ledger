@@ -3,6 +3,7 @@ package com.cash.ledger.ledger.controller;
 import com.cash.ledger.ledger.entity.Payment;
 import com.cash.ledger.ledger.entity.UserAccount;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
+import com.cash.ledger.ledger.entity.dto.payment.PaymentSaveRequestDto;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
@@ -33,8 +34,8 @@ public class LedgerControllerImpl implements LedgerController{
     }
     @PostMapping("lipa-save")
     @Override
-    public Payment savePayment(@RequestBody Payment payment) {
-        return ledgerService.savePayment(payment);
+    public Payment savePayment(@RequestBody PaymentSaveRequestDto paymentSaveRequestDto) {
+        return ledgerService.savePayment(paymentSaveRequestDto);
     }
     @PostMapping("user-account")
     @Override

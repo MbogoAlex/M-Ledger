@@ -39,33 +39,18 @@ public class LedgerRepositoryImpl implements LedgerRepository{
         }
 
         // Generate a new unique Integer ID
-        String newId = getNextId();
-        userAccount.setId(String.valueOf(newId));
+        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "userAccount");
+        counter.setLastId(String.valueOf(Integer.parseInt(counter.getLastId()) + 1));
+
+
+        userAccount.setId(counter.getLastId());
+
+        dynamoDBMapper.save(counter);
 
         // Save user if no duplicate phoneNumber is found
         dynamoDBMapper.save(userAccount);
         return userAccount;
     }
-
-    /**
-     * Fetch the highest `id` in the table and return the next one.
-     */
-    private String getNextId() {
-        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "userAccount");
-        if (counter == null) {
-            counter = new IdCounter();
-            counter.setTableName("userAccount");
-            counter.setLastId("1");
-        } else {
-            counter.setLastId(String.valueOf(Integer.parseInt(counter.getLastId()) + 1));
-        }
-        dynamoDBMapper.save(counter);
-        return counter.getLastId();
-    }
-
-
-
-
 
 
     @Override
@@ -95,6 +80,13 @@ public class LedgerRepositoryImpl implements LedgerRepository{
 
     @Override
     public Payment savePayment(Payment payment) {
+        // Generate a new unique Integer ID
+        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "payment");
+        counter.setLastId(String.valueOf(Integer.parseInt(counter.getLastId()) + 1));
+
+        payment.setId(counter.getLastId());
+
+        dynamoDBMapper.save(counter);
         dynamoDBMapper.save(payment);
         return payment;
     }
@@ -127,7 +119,7 @@ public class LedgerRepositoryImpl implements LedgerRepository{
     @Override
     public List<Payment> getUserPayments(Integer userId) {
         Payment paymentKey = new Payment();
-        paymentKey.setUserId(userId);
+        paymentKey.setUserId(String.valueOf(userId));
 
         DynamoDBQueryExpression<Payment> queryExpression = new DynamoDBQueryExpression<Payment>()
                 .withIndexName("UserIdIndex")

@@ -4,6 +4,7 @@ import com.cash.ledger.ledger.config.Constants;
 import com.cash.ledger.ledger.entity.Payment;
 import com.cash.ledger.ledger.entity.UserAccount;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
+import com.cash.ledger.ledger.entity.dto.payment.PaymentSaveRequestDto;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
@@ -154,7 +155,21 @@ public class LedgerServiceImpl implements LedgerService{
     }
 
     @Override
-    public Payment savePayment(Payment payment) {
+    public Payment savePayment(PaymentSaveRequestDto paymentSaveRequestDto) {
+
+        Payment payment = new Payment();
+        payment.setAmount(paymentSaveRequestDto.getAmount());
+        payment.setExpiredAt(paymentSaveRequestDto.getExpiredAt());
+        payment.setPaidAt(paymentSaveRequestDto.getPaidAt());
+        payment.setMonth(paymentSaveRequestDto.getMonth());
+        payment.setUserId(paymentSaveRequestDto.getUserId());
+
+        if(paymentSaveRequestDto.getPermanent()) {
+            UserAccount userAccount = getUserAccount(paymentSaveRequestDto.getUserId());
+            userAccount.setPermanent(true);
+            updateUserAccount(paymentSaveRequestDto.getUserId(), userAccount);
+        }
+
         return ledgerRepository.savePayment(payment);
     }
 

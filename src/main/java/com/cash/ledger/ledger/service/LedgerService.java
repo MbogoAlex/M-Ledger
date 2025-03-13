@@ -3,6 +3,7 @@ package com.cash.ledger.ledger.service;
 import com.cash.ledger.ledger.entity.Payment;
 import com.cash.ledger.ledger.entity.UserAccount;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentRequestDto;
+import com.cash.ledger.ledger.entity.dto.payment.PaymentSaveRequestDto;
 import com.cash.ledger.ledger.entity.dto.payment.PaymentStatusDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
@@ -22,7 +23,7 @@ public interface LedgerService {
     UserAccount updateUserAccount(String userId, UserAccount userAccount);
     UserAccount getUserAccount(String userId);
     String deleteUserAccount(Integer userId);
-    Payment savePayment(Payment payment);
+    Payment savePayment(PaymentSaveRequestDto paymentSaveRequestDto);
     Payment updatePayment(Integer paymentId, Payment payment);
     String deletePayment(Integer paymentId);
     Payment getPaymentById(Integer paymentId);
