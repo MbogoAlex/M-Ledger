@@ -43,28 +43,34 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount updateUserDetails(UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody) {
         UserAccount userAccount = getUserAccount(userProfileDetailsUpdateRequestBody.getUserId());
 
-        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getFname(), userAccount.getFname())) {
+        if(userProfileDetailsUpdateRequestBody.getFname() != null &&
+                !Objects.equals(userProfileDetailsUpdateRequestBody.getFname(), userAccount.getFname())) {
             userAccount.setFname(userProfileDetailsUpdateRequestBody.getFname());
         }
 
-        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getLname(), userAccount.getLname())) {
+        if(userProfileDetailsUpdateRequestBody.getLname() != null &&
+                !Objects.equals(userProfileDetailsUpdateRequestBody.getLname(), userAccount.getLname())) {
             userAccount.setLname(userProfileDetailsUpdateRequestBody.getLname());
         }
 
-        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getEmail(), userAccount.getEmail())) {
+        if(userProfileDetailsUpdateRequestBody.getEmail() != null &&
+                !Objects.equals(userProfileDetailsUpdateRequestBody.getEmail(), userAccount.getEmail())) {
             userAccount.setEmail(userProfileDetailsUpdateRequestBody.getEmail());
         }
 
-        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getPassword(), userAccount.getPassword())) {
+        if(userProfileDetailsUpdateRequestBody.getPassword() != null &&
+                !Objects.equals(userProfileDetailsUpdateRequestBody.getPassword(), userAccount.getPassword())) {
             userAccount.setPassword(userProfileDetailsUpdateRequestBody.getPassword());
         }
 
-        if(!Objects.equals(userProfileDetailsUpdateRequestBody.getPhoneNumber(), userAccount.getPhoneNumber())) {
+        if(userProfileDetailsUpdateRequestBody.getPhoneNumber() != null &&
+                !Objects.equals(userProfileDetailsUpdateRequestBody.getPhoneNumber(), userAccount.getPhoneNumber())) {
             userAccount.setPhoneNumber(userProfileDetailsUpdateRequestBody.getPhoneNumber());
         }
 
         return updateUserAccount(userProfileDetailsUpdateRequestBody.getUserId(), userAccount);
     }
+
 
     @Override
     public UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto) {

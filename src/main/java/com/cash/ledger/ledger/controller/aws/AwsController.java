@@ -39,7 +39,7 @@ public class AwsController {
     }
 
     // Endpoint to upload a file to a bucket
-    @PostMapping("file/upload")
+    @PostMapping("files/upload")
     public ResponseEntity<?> uploadFiles(
             @RequestParam("file") MultipartFile[] files
     ) throws Exception {

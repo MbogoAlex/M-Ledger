@@ -29,7 +29,6 @@ public class AwsServiceImplementation implements AwsService {
     public String uploadFile(String bucketName, MultipartFile file) throws AmazonClientException, IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         String fileName = file.getOriginalFilename();
-        System.out.println("FILE NAME: "+fileName);
         String contentType = file.getContentType();
         long fileSize = file.getSize();
         InputStream inputStream = file.getInputStream();
@@ -59,7 +58,6 @@ public class AwsServiceImplementation implements AwsService {
 
         for(MultipartFile file : files) {
             String fileName = file.getOriginalFilename();
-            System.out.println("FILE NAME: "+fileName);
             String contentType = file.getContentType();
             long fileSize = file.getSize();
             InputStream inputStream = file.getInputStream();
