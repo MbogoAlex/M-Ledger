@@ -189,7 +189,7 @@ public class LedgerServiceImpl implements LedgerService{
     }
 
     @Override
-    public List<Payment> getUserPayments(Integer userId) {
+    public List<Payment> getUserPayments(String userId) {
         return ledgerRepository.getUserPayments(userId);
     }
 }

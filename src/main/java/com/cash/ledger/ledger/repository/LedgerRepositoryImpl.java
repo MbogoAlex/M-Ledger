@@ -117,7 +117,7 @@ public class LedgerRepositoryImpl implements LedgerRepository{
     }
 
     @Override
-    public List<Payment> getUserPayments(Integer userId) {
+    public List<Payment> getUserPayments(String userId) {
         Payment paymentKey = new Payment();
         paymentKey.setUserId(String.valueOf(userId));
 

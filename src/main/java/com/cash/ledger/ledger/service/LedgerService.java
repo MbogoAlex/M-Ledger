@@ -27,5 +27,5 @@ public interface LedgerService {
     Payment updatePayment(Integer paymentId, Payment payment);
     String deletePayment(Integer paymentId);
     Payment getPaymentById(Integer paymentId);
-    List<Payment> getUserPayments(Integer userId);
+    List<Payment> getUserPayments(String userId);
 }

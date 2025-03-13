@@ -12,6 +12,7 @@ import com.cash.ledger.ledger.service.LedgerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -56,5 +57,10 @@ public class LedgerControllerImpl implements LedgerController{
     @Override
     public UserAccount getUserById(@PathVariable("id") String userId) {
         return ledgerService.getUserAccount(userId);
+    }
+    @GetMapping("payments/{userId}")
+    @Override
+    public List<Payment> getUserPayments(@PathVariable("userId") String userId) {
+        return ledgerService.getUserPayments(userId);
     }
 }

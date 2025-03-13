@@ -9,6 +9,7 @@ import com.cash.ledger.ledger.entity.dto.userAccount.AccountCreationRequestDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.UserBackupDetailsUpdateDto;
 import com.cash.ledger.ledger.entity.dto.userAccount.UserProfileDetailsUpdateRequestBody;
 
+import java.util.List;
 import java.util.Map;
 
 public interface LedgerController {
@@ -22,4 +23,5 @@ public interface LedgerController {
 
     UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);
     UserAccount getUserById(String userId);
+    List<Payment> getUserPayments(String userId);
 }
