@@ -1,4 +1,4 @@
-package com.cash.ledger.ledger.entity.dto.payment;
+package com.cash.ledger.ledger.entity.payment.dto;
 
 public class PaymentSaveRequestDto {
     private String userId;

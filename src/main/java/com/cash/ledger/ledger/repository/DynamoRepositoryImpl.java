@@ -3,12 +3,11 @@ package com.cash.ledger.ledger.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.cash.ledger.ledger.entity.IdCounter;
-import com.cash.ledger.ledger.entity.Payment;
-import com.cash.ledger.ledger.entity.UserAccount;
+import com.cash.ledger.ledger.entity.payment.Payment;
+import com.cash.ledger.ledger.entity.userAccount.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class LedgerRepositoryImpl implements LedgerRepository{
+public class DynamoRepositoryImpl implements DynamoRepository {
     private final DynamoDBMapper dynamoDBMapper;
     @Autowired
-    public LedgerRepositoryImpl(DynamoDBMapper dynamoDBMapper) {
+    public DynamoRepositoryImpl(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;
     }
 

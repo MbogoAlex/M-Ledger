@@ -1,4 +1,4 @@
-package com.cash.ledger.ledger.entity.dto.userAccount;
+package com.cash.ledger.ledger.entity.userAccount.dto;
 
 import java.time.LocalDateTime;
 

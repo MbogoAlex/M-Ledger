@@ -1,4 +1,4 @@
-package com.cash.ledger.ledger.entity;
+package com.cash.ledger.ledger.entity.payment;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 

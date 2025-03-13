@@ -1,4 +1,4 @@
-package com.cash.ledger.ledger.entity.dto.payment;
+package com.cash.ledger.ledger.entity.payment.dto;
 
 public class PaymentStatusDto {
     private String invoice_id;
