@@ -9,6 +9,7 @@ public interface DynamoRepository {
     UserAccount saveUserAccount(UserAccount userAccount);
     UserAccount updateUserAccount(String userId, UserAccount userAccount);
     UserAccount getUserAccount(String userId);
+    UserAccount getUserAccountByPhoneNumber(String phoneNumber);
     String deleteUserAccount(Integer userId);
     Payment savePayment(Payment payment);
     Payment updatePayment(Integer paymentId, Payment payment);

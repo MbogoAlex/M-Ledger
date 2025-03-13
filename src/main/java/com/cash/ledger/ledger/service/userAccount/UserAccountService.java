@@ -14,5 +14,6 @@ public interface UserAccountService {
     UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);
     UserAccount updateUserAccount(String userId, UserAccount userAccount);
     UserAccount getUserAccount(String userId);
+    UserAccount getUserAccountByPhoneNumber(String phoneNumber);
     String deleteUserAccount(Integer userId);
 }

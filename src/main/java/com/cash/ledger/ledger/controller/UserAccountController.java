@@ -13,4 +13,5 @@ public interface UserAccountController {
 
     ResponseEntity<Response> updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);
     ResponseEntity<Response> getUserById(String userId);
+    ResponseEntity<Response> getUserAccountByPhoneNumber(String phoneNumber);
 }

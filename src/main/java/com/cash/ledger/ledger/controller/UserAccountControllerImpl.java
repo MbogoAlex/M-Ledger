@@ -45,9 +45,18 @@ public class UserAccountControllerImpl implements UserAccountController {
     public ResponseEntity<Response> updateUserBackupDetails(@RequestBody UserBackupDetailsUpdateDto userBackupDetailsUpdateDto) {
         return buildResponse.createResponse("user account", userAccountService.updateUserBackupDetails(userBackupDetailsUpdateDto), "User account updated", HttpStatus.OK);
     }
-    @GetMapping("user/{id}")
+    @GetMapping("user/uid/{id}")
     @Override
     public ResponseEntity<Response> getUserById(@PathVariable("id") String userId) {
         return buildResponse.createResponse("user", userAccountService.getUserAccount(userId), "User fetched", HttpStatus.OK);
+    }
+    @GetMapping("user/phone/{phoneNumber}")
+    @Override
+    public ResponseEntity<Response> getUserAccountByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        try {
+            return buildResponse.createResponse("user", userAccountService.getUserAccountByPhoneNumber(phoneNumber), "User fetched", HttpStatus.OK);
+        } catch (Exception e) {
+            return buildResponse.createResponse(null, null, e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }

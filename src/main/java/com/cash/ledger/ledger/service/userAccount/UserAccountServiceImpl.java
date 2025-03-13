@@ -90,6 +90,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccount getUserAccountByPhoneNumber(String phoneNumber) {
+        return dynamoRepository.getUserAccountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
     public String deleteUserAccount(Integer userId) {
         return dynamoRepository.deleteUserAccount(userId);
     }

@@ -71,6 +71,21 @@ public class DynamoRepositoryImpl implements DynamoRepository {
     }
 
     @Override
+    public UserAccount getUserAccountByPhoneNumber(String phoneNumber) {
+        // Define the query expression
+        DynamoDBQueryExpression<UserAccount> queryExpression = new DynamoDBQueryExpression<UserAccount>()
+                .withIndexName("PhoneNumberIndex")  // Use the GSI
+                .withKeyConditionExpression("phoneNumber = :phoneNumber")
+                .withExpressionAttributeValues(Map.of(":phoneNumber", new AttributeValue(phoneNumber)))
+                .withConsistentRead(false);  // GSIs require eventual consistency
+
+        List<UserAccount> results = dynamoDBMapper.query(UserAccount.class, queryExpression);
+
+        return results.get(0); // Return the first matching user or null if not found
+    }
+
+
+    @Override
     public String deleteUserAccount(Integer userId) {
         UserAccount acc = dynamoDBMapper.load(UserAccount.class, userId);
         dynamoDBMapper.delete(acc);
