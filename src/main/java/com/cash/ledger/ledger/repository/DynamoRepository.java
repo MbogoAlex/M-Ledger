@@ -14,6 +14,8 @@ public interface DynamoRepository {
     UserAccount getUserAccountByPhoneNumber(String phoneNumber);
     String deleteUserAccount(Integer userId);
     Payment savePayment(Payment payment);
+
+    Payment uploadPayment(Payment payment);
     Payment updatePayment(Integer paymentId, Payment payment);
     String deletePayment(Integer paymentId);
     Payment getPaymentById(Integer paymentId);

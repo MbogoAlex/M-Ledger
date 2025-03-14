@@ -40,6 +40,11 @@ public class PaymentControllerImpl implements PaymentController{
     public ResponseEntity<Response> savePayment(@RequestBody PaymentSaveRequestDto paymentSaveRequestDto) {
         return buildResponse.createResponse("payment", paymentService.savePayment(paymentSaveRequestDto), "Payment saved", HttpStatus.CREATED);
     }
+    @PostMapping("payment/upload")
+    @Override
+    public ResponseEntity<Response> uploadPayments() {
+        return buildResponse.createResponse("payment", paymentService.uploadPayments(), "Payment saved", HttpStatus.CREATED);
+    }
 
     @GetMapping("payments/{userId}")
     @Override

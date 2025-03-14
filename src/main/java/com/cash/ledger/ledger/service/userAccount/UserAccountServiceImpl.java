@@ -1,15 +1,19 @@
 package com.cash.ledger.ledger.service.userAccount;
 
+import com.cash.ledger.ledger.entity.payment.Payment;
 import com.cash.ledger.ledger.entity.userAccount.UserAccount;
 import com.cash.ledger.ledger.entity.userAccount.dto.AccountCreationRequestDto;
 import com.cash.ledger.ledger.entity.userAccount.dto.UserBackupDetailsUpdateDto;
 import com.cash.ledger.ledger.entity.userAccount.dto.UserProfileDetailsUpdateRequestBody;
 import com.cash.ledger.ledger.repository.DynamoRepository;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,10 +83,10 @@ public class UserAccountServiceImpl implements UserAccountService {
                 userAccount.setCategoryMappings(row[17]);
 
                 dynamoRepository.uploadUserDetails(userAccount);
-            }
 
-            counter = counter + 1;
-            System.out.println("UPLOAD COUNT: "+counter);
+                counter = counter + 1;
+                System.out.println("UPLOAD COUNT: "+counter);
+            }
 
         } catch (Exception e) {
             System.out.println("SAVING ERROR: "+e);

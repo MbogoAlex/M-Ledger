@@ -11,5 +11,6 @@ public interface PaymentController {
     ResponseEntity<Response> checkPaymentStatus(PaymentStatusDto paymentStatusDto) throws Exception;
 
     ResponseEntity<Response> savePayment(PaymentSaveRequestDto paymentSaveRequestDto);
+    ResponseEntity<Response> uploadPayments();
     ResponseEntity<Response> getUserPayments(String userId);
 }

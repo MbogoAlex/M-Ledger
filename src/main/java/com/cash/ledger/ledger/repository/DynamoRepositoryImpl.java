@@ -119,6 +119,19 @@ public class DynamoRepositoryImpl implements DynamoRepository {
     }
 
     @Override
+    public Payment uploadPayment(Payment payment) {
+        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "payment");
+        counter.setLastId(String.valueOf(payment.getId()));
+
+
+        payment.setId(counter.getLastId());
+
+        dynamoDBMapper.save(counter);
+        dynamoDBMapper.save(payment);
+        return payment;
+    }
+
+    @Override
     public Payment updatePayment(Integer paymentId, Payment payment) {
         dynamoDBMapper.save(
                 payment,

@@ -12,6 +12,8 @@ public interface PaymentService {
     Map<String, Object> makePayment(PaymentRequestDto paymentRequestDto) throws Exception;
     Map<String, Object> lipaStatus(PaymentStatusDto paymentStatusDto) throws Exception;
     Payment savePayment(PaymentSaveRequestDto paymentSaveRequestDto);
+
+    Object uploadPayments();
     Payment updatePayment(Integer paymentId, Payment payment);
     String deletePayment(Integer paymentId);
     Payment getPaymentById(Integer paymentId);

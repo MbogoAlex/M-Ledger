@@ -9,10 +9,14 @@ import com.cash.ledger.ledger.entity.userAccount.UserAccount;
 import com.cash.ledger.ledger.repository.DynamoRepository;
 import com.cash.ledger.ledger.service.userAccount.UserAccountService;
 import com.google.gson.Gson;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -100,7 +104,44 @@ public class PaymentServiceImpl implements PaymentService{
         return dynamoRepository.savePayment(payment);
     }
 
+    @Override
+    public Object uploadPayments() {
+        String filePath = "/home/mbogo/Downloads/supabase-payments.csv";
 
+        int counter = 0;
+
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+            List<String[]> records = reader.readAll();
+            boolean isFirstRow = true;
+
+            for (String[] row : records) {
+                if (isFirstRow) {
+                    isFirstRow = false;
+                    continue; // Skip header row
+                }
+
+                Payment payment = new Payment();
+                payment.setId(row[0]);
+                payment.setAmount(row[1]);
+                payment.setExpiredAt(row[2]);
+                payment.setPaidAt(row[3]);
+                payment.setMonth((row[4] == null || row[4].isEmpty() || row[4].equalsIgnoreCase("null")) ? null : Integer.parseInt(row[4]));
+                payment.setUserId(row[5]);
+                payment.setFreeTrialEndedOn(row[6]);
+                payment.setFreeTrialStartedOn(row[7]);
+
+                dynamoRepository.uploadPayment(payment);
+
+                counter = counter + 1;
+                System.out.println("UPLOAD COUNT: "+counter);
+
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     @Override
     public Payment updatePayment(Integer paymentId, Payment payment) {
