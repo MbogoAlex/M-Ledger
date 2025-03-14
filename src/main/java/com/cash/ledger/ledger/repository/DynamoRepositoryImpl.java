@@ -51,6 +51,19 @@ public class DynamoRepositoryImpl implements DynamoRepository {
         return userAccount;
     }
 
+    @Override
+    public UserAccount uploadUserDetails(UserAccount userAccount) {
+        IdCounter counter = dynamoDBMapper.load(IdCounter.class, "userAccount");
+        counter.setLastId(String.valueOf(userAccount.getId()));
+
+
+        userAccount.setId(counter.getLastId());
+
+        dynamoDBMapper.save(counter);
+        dynamoDBMapper.save(userAccount);
+        return userAccount;
+    }
+
 
     @Override
     public UserAccount updateUserAccount(String userId, UserAccount userAccount) {

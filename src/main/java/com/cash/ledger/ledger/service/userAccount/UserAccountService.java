@@ -10,6 +10,8 @@ public interface UserAccountService {
     UserAccount createUserAccount(AccountCreationRequestDto accountCreationRequestDto);
     UserAccount saveUserAccount(UserAccount userAccount);
 
+    Object uploadUserDetails();
+
     UserAccount updateUserDetails(UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody);
     UserAccount updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);
     UserAccount updateUserAccount(String userId, UserAccount userAccount);

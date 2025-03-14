@@ -35,6 +35,12 @@ public class UserAccountControllerImpl implements UserAccountController {
         }
 
     }
+    @PostMapping("user-details/upload")
+    @Override
+    public ResponseEntity<Response> uploadUserDetails() {
+        return buildResponse.createResponse("user details", userAccountService.uploadUserDetails(), "User account created", HttpStatus.CREATED);
+    }
+
     @PutMapping("user-profile-update")
     @Override
     public ResponseEntity<Response> updateUserDetails(@RequestBody UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody) {

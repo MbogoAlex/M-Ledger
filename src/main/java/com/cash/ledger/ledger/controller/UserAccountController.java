@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 public interface UserAccountController {
 
     ResponseEntity<Response> createUserAccount(AccountCreationRequestDto accountCreationRequestDto);
+
+    ResponseEntity<Response> uploadUserDetails();
     ResponseEntity<Response> updateUserDetails(UserProfileDetailsUpdateRequestBody userProfileDetailsUpdateRequestBody);
 
     ResponseEntity<Response> updateUserBackupDetails(UserBackupDetailsUpdateDto userBackupDetailsUpdateDto);

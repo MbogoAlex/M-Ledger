@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DynamoRepository {
     UserAccount saveUserAccount(UserAccount userAccount);
+
+    UserAccount uploadUserDetails(UserAccount userAccount);
     UserAccount updateUserAccount(String userId, UserAccount userAccount);
     UserAccount getUserAccount(String userId);
     UserAccount getUserAccountByPhoneNumber(String phoneNumber);
